@@ -39,7 +39,7 @@ export async function getTopNews(offset: number = 0): Promise<NewsResponse> {
     const data = await res.json();
 
     // Flatten the grouped structure into a single array
-    const articles = data.top_news.flatMap((group: { news: Article[] }) => group.news);
+    const articles = (data.top_news ?? []).flatMap((group: { news: Article[] }) => group.news);
 
     return {
         news: articles,
@@ -49,20 +49,26 @@ export async function getTopNews(offset: number = 0): Promise<NewsResponse> {
     };
 }
 
-export async function searchNews(query?: string, category?: string, offset: number = 0): Promise<NewsResponse> {
+export async function searchNews(text?: string, categories?: string, offset: number = 0): Promise<NewsResponse> {
     const params = new URLSearchParams({
         'source-country': 'do',
         'language': 'es',
         'api-key': api_key ?? '',
-        ...(query && { text: query }),
-        ...(category && { category }),
+        ...(text && { text }),
+        ...(categories && { categories }),
         'offset': offset.toString(),
         'number': '20',
     });
 
     const res = await fetch(`${api_url}search-news?${params}`);
     const data = await res.json();
-    return data;
+    console.debug(data);
+    return {
+        news: data.news,
+        offset: data.offset,
+        number: data.number,
+        available: data.available,
+    };
 }
 
 export async function getArticleById(id: string): Promise<Article> {
