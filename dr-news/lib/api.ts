@@ -57,10 +57,21 @@ export async function searchNews(query?: string, category?: string, offset: numb
         ...(query && { text: query }),
         ...(category && { category }),
         'offset': offset.toString(),
-        'number': '10',
+        'number': '20',
     });
 
     const res = await fetch(`${api_url}search-news?${params}`);
     const data = await res.json();
     return data;
+}
+
+export async function getArticleById(id: string): Promise<Article> {
+  const params = new URLSearchParams({
+    'ids': id,
+    'api-key': api_key ?? '',
+  });
+
+  const res = await fetch(`${api_url}retrieve-news?${params}`);
+  const data = await res.json();
+  return data.news[0]; // returns array, we just want the first one
 }
