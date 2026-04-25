@@ -39,7 +39,7 @@ export async function getTopNews(offset: number = 0): Promise<NewsResponse> {
     const data = await res.json();
 
     // Flatten the grouped structure into a single array
-    const articles = data.top_news.flatMap((group: { news: Article[] }) => group.news);
+    const articles = (data.top_news ?? []).flatMap((group: { news: Article[] }) => group.news);
 
     return {
         news: articles,

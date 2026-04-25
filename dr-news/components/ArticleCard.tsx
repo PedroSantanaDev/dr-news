@@ -4,6 +4,13 @@ import { Badge } from '@/components/ui/badge';
 import { Article } from '@/lib/api';
 import { decodeHtml } from '@/lib/utils';
 
+const categoryLabels: Record<string, string> = {
+    politics: 'Política',
+    sports: 'Deportes',
+    economy: 'Economía',
+    technology: 'Tecnología',
+};
+
 function getSentimentBadge(sentiment: number) {
   if (sentiment > 0.1) return { label: 'Positivo', variant: 'default' as const, className: 'bg-green-100 text-green-700' };
   if (sentiment < -0.1) return { label: 'Negativo', variant: 'default' as const, className: 'bg-red-100 text-red-700' };
@@ -33,7 +40,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
           {/* Category + Sentiment */}
           <div className="flex items-center justify-between">
             <Badge variant="outline" className="text-blue-600 border-blue-200 uppercase text-xs">
-              {article.category}
+              {categoryLabels[article.category]}
             </Badge>
             <Badge className={sentiment.className}>
               {sentiment.label}
