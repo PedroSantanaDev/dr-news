@@ -5,18 +5,26 @@ import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { useSession, signOut } from 'next-auth/react';
+import { cn } from '@/lib/utils';
 
-const navLinks = [
+const baseLinks = [
   { href: '/', label: 'Inicio' },
   { href: '/category/politics', label: 'Política' },
   { href: '/category/sports', label: 'Deportes' },
-  { href: '/category/economy', label: 'Economía' },
+  { href: '/category/business', label: 'Negocios' },
   { href: '/category/technology', label: 'Tecnología' },
-  { href: '/saved', label: 'Guardados' },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session } = useSession();
+
+  const navLinks = [
+    ...baseLinks,
+    ...(session ? [{ href: '/saved', label: 'Guardados' }] : []),
+    { href: '/search', label: 'Buscar' },
+  ];
 
   return (
     <nav className="bg-white shadow-sm px-6 py-4">
@@ -27,15 +35,28 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden md:flex gap-1">
+        <div className="hidden md:flex gap-1 items-center">
           {navLinks.map(link => (
             <Link key={link.href} href={link.href} className={buttonVariants({ variant: 'ghost' })}>
               {link.label}
             </Link>
           ))}
+
+          {session ? (
+            <button
+              onClick={() => signOut({ callbackUrl: '/' })}
+              className={cn(buttonVariants({ variant: 'ghost' }), 'cursor-pointer')}
+            >
+              Cerrar sesión
+            </button>
+          ) : (
+            <Link href="/login" className={buttonVariants({ variant: 'default' })}>
+              Iniciar sesión
+            </Link>
+          )}
         </div>
 
-        {/* Mobile hamburger button */}
+        {/* Mobile hamburger */}
         <button
           className="md:hidden p-2 rounded-md hover:bg-gray-100 cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
@@ -44,7 +65,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      <Separator className="mt-4" />
+      {/* <Separator className="mt-4" /> */}
 
       {/* Mobile menu */}
       {isOpen && (
@@ -59,6 +80,20 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
+          {session ? (
+            <button
+              onClick={() => signOut({ callbackUrl: '/' })}
+              className={cn(buttonVariants({ variant: 'ghost' }), 'cursor-pointer')}
+            >
+              Cerrar sesión
+            </button>
+          ) : (
+            <Link href="/login" className={buttonVariants({ variant: 'default' })}
+              onClick={() => setIsOpen(false)}
+            >
+              Iniciar sesión
+            </Link>
+          )}
         </div>
       )}
     </nav>

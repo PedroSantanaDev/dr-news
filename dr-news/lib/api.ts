@@ -57,7 +57,7 @@ export async function searchNews(text?: string, categories?: string, offset: num
         ...(text && { text }),
         ...(categories && { categories }),
         'offset': offset.toString(),
-        'number': '20',
+        'number': '30',
     });
 
     const res = await fetch(`${api_url}search-news?${params}`);

@@ -24,7 +24,7 @@ export default function Footer() {
                         <ul className="flex flex-col gap-2 text-sm text-gray-500">
                             <li><Link href="/category/politics" className={buttonVariants({ variant: 'ghost' })}>Política</Link></li>
                             <li><Link href="/category/sports" className={buttonVariants({ variant: 'ghost' })}>Deportes</Link></li>
-                            <li><Link href="/category/economy" className={buttonVariants({ variant: 'ghost' })}>Economía</Link></li>
+                            <li><Link href="/category/business" className={buttonVariants({ variant: 'ghost' })}>Negocios</Link></li>
                             <li><Link href="/category/technology" className={buttonVariants({ variant: 'ghost' })}>Tecnología</Link></li>
                         </ul>
                     </div>

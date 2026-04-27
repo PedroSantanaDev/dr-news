@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { cn } from "@/lib/utils";
+import { SessionProvider } from 'next-auth/react';
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -27,9 +28,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" className={cn("font-sans", geist.variable)}>
       <body className={`${inter.variable} ${merriweather.variable} font-sans bg-gray-50 min-h-screen text-gray-900`}>
-        <Navbar />
-        {children}
-        <Footer />
+        <SessionProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </SessionProvider>
       </body>
     </html>
   );
