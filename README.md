@@ -5,7 +5,7 @@ A personalized news aggregator for the Dominican Republic, built with Next.js, T
 ## Features
 
 - 📰 Top headlines from Dominican Republic sources
-- 🗂️ Browse by category (Politics, Sports, Economy, Technology)
+- 🗂️ Browse by category (Politics, Sports, Business, Technology)
 - 🔍 Search articles
 - 💾 Save articles for later
 - 😊 Sentiment indicator (Positive / Neutral / Negative)
@@ -65,6 +65,12 @@ dr-news/
       page.tsx              # Article detail page
     category/[slug]/
       page.tsx              # Category page
+    login
+      page.tsx              # Login page
+    register
+      page.tsx              # Registration page
+    Saved
+      page.tsx              # Saved articles for user
     favicon.ico
     globals.css
     layout.tsx              # Root layout (Navbar + Footer)

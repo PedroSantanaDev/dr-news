@@ -23,6 +23,7 @@ export default function Navbar() {
   const navLinks = [
     ...baseLinks,
     ...(session ? [{ href: '/saved', label: 'Guardados' }] : []),
+    { href: '/search', label: 'Buscar' },
   ];
 
   return (
