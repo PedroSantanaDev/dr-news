@@ -6,6 +6,7 @@ import { Menu, X } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useSession, signOut } from 'next-auth/react';
+import { cn } from '@/lib/utils';
 
 const baseLinks = [
   { href: '/', label: 'Inicio' },
@@ -43,7 +44,7 @@ export default function Navbar() {
           {session ? (
             <button
               onClick={() => signOut({ callbackUrl: '/' })}
-              className={buttonVariants({ variant: 'ghost' })}
+              className={cn(buttonVariants({ variant: 'ghost' }), 'cursor-pointer')}
             >
               Cerrar sesión
             </button>
@@ -63,7 +64,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      <Separator className="mt-4" />
+      {/* <Separator className="mt-4" /> */}
 
       {/* Mobile menu */}
       {isOpen && (
@@ -81,7 +82,7 @@ export default function Navbar() {
           {session ? (
             <button
               onClick={() => signOut({ callbackUrl: '/' })}
-              className={buttonVariants({ variant: 'ghost' })}
+              className={cn(buttonVariants({ variant: 'ghost' }), 'cursor-pointer')}
             >
               Cerrar sesión
             </button>

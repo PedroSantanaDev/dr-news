@@ -1,14 +1,19 @@
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
+import { Bookmark, BookmarkCheck } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Article } from '@/lib/api';
 import { decodeHtml } from '@/lib/utils';
+import { useSession } from 'next-auth/react';
 
 const categoryLabels: Record<string, string> = {
-    politics: 'Política',
-    sports: 'Deportes',
-    business: 'Negocios',
-    technology: 'Tecnología',
+  politics: 'Política',
+  sports: 'Deportes',
+  business: 'Negocios',
+  technology: 'Tecnología',
 };
 
 function getSentimentBadge(sentiment: number) {
@@ -19,10 +24,38 @@ function getSentimentBadge(sentiment: number) {
 
 interface ArticleCardProps {
   article: Article;
+  initialSaved?: boolean;
 }
 
-export default function ArticleCard({ article }: ArticleCardProps) {
+export default function ArticleCard({ article, initialSaved = false }: ArticleCardProps) {
+  const { data: session } = useSession();
+  const [saved, setSaved] = useState(initialSaved);
+  const [loading, setLoading] = useState(false);
   const sentiment = getSentimentBadge(article.sentiment);
+
+  async function toggleSave(e: React.MouseEvent) {
+    e.preventDefault(); // prevent navigating to article
+    if (!session) return;
+    setLoading(true);
+
+    if (saved) {
+      await fetch('/api/saved', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ articleId: article.id }),
+      });
+      setSaved(false);
+    } else {
+      await fetch('/api/saved', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(article),
+      });
+      setSaved(true);
+    }
+
+    setLoading(false);
+  }
 
   return (
     <Link href={`/article/${article.id}`}>
@@ -58,9 +91,20 @@ export default function ArticleCard({ article }: ArticleCardProps) {
           </h2>
         </CardContent>
 
-        {/* Author + Date */}
-        <CardFooter className="text-xs text-gray-500 pt-0">
-          {article.author} · {new Date(article.publish_date).toLocaleDateString('es-DO')}
+        <CardFooter className="text-xs text-gray-500 pt-0 flex justify-between items-center">
+          {/* Author + Date */}
+          <span>{article.author} · {new Date(article.publish_date).toLocaleDateString('es-DO')}</span>
+
+          {/* Save button - only show if logged in */}
+          {session && (
+            <button
+              onClick={toggleSave}
+              disabled={loading}
+              className="text-gray-400 hover:text-blue-600 transition-colors cursor-pointer"
+            >
+              {saved ? <BookmarkCheck size={18} className="text-blue-600" /> : <Bookmark size={18} />}
+            </button>
+          )}
         </CardFooter>
       </Card>
     </Link>

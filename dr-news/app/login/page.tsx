@@ -73,7 +73,7 @@ export default function LoginPage() {
                                 className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
-                        <Button type="submit" disabled={loading} className="w-full">
+                        <Button type="submit" disabled={loading} className="w-full cursor-pointer">
                             {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
                         </Button>
                     </form>
