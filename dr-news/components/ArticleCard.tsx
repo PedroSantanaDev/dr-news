@@ -7,7 +7,7 @@ import { decodeHtml } from '@/lib/utils';
 const categoryLabels: Record<string, string> = {
     politics: 'Política',
     sports: 'Deportes',
-    economy: 'Economía',
+    business: 'Negocios',
     technology: 'Tecnología',
 };
 

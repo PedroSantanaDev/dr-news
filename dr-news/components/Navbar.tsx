@@ -10,7 +10,7 @@ const navLinks = [
   { href: '/', label: 'Inicio' },
   { href: '/category/politics', label: 'Política' },
   { href: '/category/sports', label: 'Deportes' },
-  { href: '/category/economy', label: 'Economía' },
+  { href: '/category/business', label: 'Negocios' },
   { href: '/category/technology', label: 'Tecnología' },
   { href: '/saved', label: 'Guardados' },
 ];

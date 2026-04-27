@@ -7,7 +7,7 @@ import { buttonVariants } from '@/components/ui/button';
 const categoryLabels: Record<string, string> = {
     politics: 'Política',
     sports: 'Deportes',
-    economy: 'Economía',
+    business: 'Negocios',
     technology: 'Tecnología',
 };
 
@@ -23,8 +23,8 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     const currentPage = Number(page ?? 1);
     const offset = (currentPage - 1) * 20;
 
-    // const data = await searchNews(undefined, slug, offset);
-    const data = { news: mockArticles, offset, number: mockArticles.length, available: 40 }; // fake 40 available for testing
+    const data = await searchNews(undefined, slug, offset);
+    //const data = { news: mockArticles, offset, number: mockArticles.length, available: 40 }; // fake 40 available for testing
 
     const totalPages = Math.ceil(data.available / 20);
 
